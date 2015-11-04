@@ -1,3 +1,5 @@
+package teamblowfish.ihome;
+
 public class House{
     private Room[] rooms;
     private Door[] doors;
@@ -13,6 +15,17 @@ public class House{
         doors[1] = new Door("Front Door");
         doors[2] = new Door("Back Door");
         doors[3] = new Door("Garage Door");
+    }
+    public Room getRoom(int index){
+        try{ return rooms[index]; }
+        catch(ArrayIndexOutOfBoundsException e){
 
+        }
+    }
+    public Door getDoor(int index){
+        try{ return doors[index]; }
+        catch(ArrayIndexOutOfBoundsException e){
+
+        }
     }
 }

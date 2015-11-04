@@ -1,3 +1,5 @@
+package teamblowfish.ihome;
+
 public class Room{
     private Boolean lit = false;
     private String roomName;

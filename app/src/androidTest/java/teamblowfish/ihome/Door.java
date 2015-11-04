@@ -1,3 +1,5 @@
+package teamblowfish.ihome;
+
 public class Door{
     private Boolean locked = false;
     private String doorName;
