@@ -15,4 +15,6 @@ public class Room{
     public void turnOffLights(){
         lit=false;
     }
+    public String getName(){ return roomName; }
+    public void setName(String name){ roomName = name; }
 }

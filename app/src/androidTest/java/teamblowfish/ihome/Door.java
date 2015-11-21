@@ -16,4 +16,5 @@ public class Door{
         locked=false;
     }
     public String getName(){ return doorName; }
+    public void setName(String name) { doorName = name; }
 }
