@@ -1,5 +1,6 @@
 package teamblowfish.ihome;
 import java.util.LinkedList;
+import java.util.ListIterator;
 
 public class User{
     String name;
@@ -8,16 +9,17 @@ public class User{
     boolean accessibleTemp;
     char accountType;
 
-    /*constructs a user
-    @param name the name of the user
-    @param type either 'l' or 'a', which stand for limited or administrator. Although if the entered
-    char is not 'a', the user will have limited access to rooms
+    /**
+     * constructs a user with no rooms or doors accessible and no access to change temperature.
+     * @param name the name of the user
+     * @param type either 'l' or 'a', which stand for limited or administrator. Although if the entered
+     *             char is not 'a', the user will have limited access to rooms
      */
     public User(String name, char type){
         this.name = name;
         accessibleRooms = new LinkedList<Room>();
         accessibleDoors = new LinkedList<Door>();
-        accessibleTemp = true;
+        accessibleTemp = false;
         if(type=='a') accountType = type;
         else accountType = 'l';
     }
@@ -29,5 +31,14 @@ public class User{
     }
     public void tempAccess(String userName, boolean access){
 
+    }
+    public ListIterator<Room> getAccessibleRooms(){
+        return accessibleRooms.listIterator();
+    }
+    public ListIterator<Door> getAccessibleDoors(){
+        return accessibleDoors.listIterator();
+    }
+    public boolean isAccessibleTemp(){
+        return accessibleTemp;
     }
 }

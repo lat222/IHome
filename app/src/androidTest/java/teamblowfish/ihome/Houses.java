@@ -13,13 +13,12 @@ public class Houses{
         Room living = new Room("Living Room");
         Room kitchen = new Room("Kitchen");
         Room bedroom = new Room("Bedroom");
-        Room[] rooms = {living,kitchen,bedroom};
+        Room[] rooms1 = {living,kitchen,bedroom};
         Door front = new Door("Front Door");
         Door back = new Door("Back Door");
-        Door[] doors = {front,back};
-        int temp = 60;
-        House house1 = new House(rooms,doors,temp);
-        House house2 = new House();
+        Door[] doors1 = {front,back};
+        int temp1 = 60;
+        House house1 = new House(rooms1,doors1,temp1);
         LinkedList<User> users = new LinkedList<User>();
         HouseAccount house1Account = new HouseAccount(house1,users);
         houses[1] = house1Account;
