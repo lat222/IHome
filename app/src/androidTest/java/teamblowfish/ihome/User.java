@@ -21,6 +21,9 @@ public class User{
         if(type=='a') accountType = type;
         else accountType = 'l';
     }
+    public String getName(){
+        return name;
+    }
     public void changeAccess(String userName, String objectName, boolean access){
 
     }

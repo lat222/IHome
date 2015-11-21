@@ -1,6 +1,7 @@
 package teamblowfish.ihome;
 
 import java.util.LinkedList;
+import java.util.ListIterator;
 
 /**
  * Created by Leia on 11/21/2015.
@@ -18,7 +19,30 @@ public class HouseAccount {
         users.add(newUser);
     }
     public void delete(String name){
+        ListIterator<User> userIterator = users.listIterator();
+        User userToRemove = null;
+        while (userIterator.hasNext()){
+            User returnedUser = userIterator.next();
+            if(returnedUser.getName().matches(name)){
+                userToRemove=returnedUser;
+            }
+        }
+        try{users.remove(userToRemove);}
+        //here to catch if the userToRemove is still null
+        catch(Exception e){}
+    }
+    public void changeTemp(){
+    }
+    public void turnOnLight(){
 
-        users.remove(userToRemove);
+    }
+    public void turnOffLight(){
+
+    }
+    public void lockDoor(){
+
+    }
+    public void unlockDoor(){
+
     }
 }

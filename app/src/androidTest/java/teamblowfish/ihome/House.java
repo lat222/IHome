@@ -5,6 +5,11 @@ public class House{
     private Room[] rooms;
     private Door[] doors;
     private int temperature;
+    /*constructs house
+    @param rooms an array of rooms
+    @param doors an array of doors
+    @param temp an integer of the house temperature
+     */
     public void House(Room[] rooms, Door[] doors, int temp){
         this.rooms = rooms;
         this.doors = doors;
