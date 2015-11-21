@@ -8,12 +8,20 @@ import java.util.ListIterator;
  */
 public class HouseAccount {
     House house;
+    String accountName;
     LinkedList<User> users;
 
-    public HouseAccount(House house, LinkedList<User> users){
+    public HouseAccount(String accountName, House house, LinkedList<User> users){
         this.house = house;
         this.users = users;
+        this.accountName=accountName;
     }
+
+    /**
+     * accesses account name
+     * @return name of house account
+     */
+    public String getAccountName(){ return accountName;}
     public void add(String name, char accessType){
         User newUser = new User(name,accessType);
         users.add(newUser);
@@ -31,7 +39,36 @@ public class HouseAccount {
         //here to catch if the userToRemove is still null
         catch(Exception e){}
     }
-    private User getUser(String userName){
+    /**
+     * gives door names in order to create buttons
+     * @return String array with door names
+     */
+    public String[] getDoorNames(String userName){
+        Door[] doors = house.getDoors();
+        String[] doorNames = String[getUser(userName).getNumRooms()];
+        for(int i=0;i<doors.length;i++){
+            if(isAccessible(userName,doors[i].getName())){
+                doorNames[i]=doors[i].getName();
+            }
+        }
+        return doorNames;
+    }
+    /**
+     * gives room names in order to create buttons
+     * @return String array with room names
+     */
+    public String[] getRoomNames(String userName){
+        Room[] rooms = house.getRooms();
+        String[] roomNames = String[getUser(userName).getNumRooms()];
+        for(int i=0;i<rooms.length;i++){
+            if(isAccessible(userName,rooms[i].getName())){
+                roomNames[i]=rooms[i].getName();
+            }
+
+        }
+        return roomNames;
+    }
+    public User getUser(String userName){
         ListIterator<User> userIterator = users.listIterator();
         while(userIterator.hasNext()){
             User returnedUser = userIterator.next();
@@ -61,42 +98,45 @@ public class HouseAccount {
         }
         return false;
     }
-    public void changeTemp(String userName, int temp){
+
+    //since only the rooms and doorsthat are accessible will be created into buttons
+    //these methods do not need to check that.
+    public void changeTemp(int temp){
         try{
-            if(getUser(userName).isAccessibleTemp()) house.setTemp(temp);
+            house.setTemp(temp);
         }
         catch(Exception e){
 
         }
     }
-    public void turnOnLight(String userName, String roomName){
+    public void turnOnLight(String roomName){
         try{
-            if(isAccessible(userName,roomName)) house.getRoom(roomName).light();
+            house.getRoom(roomName).light();
         }
         catch(Exception e){
 
         }
 
     }
-    public void turnOffLight(String userName, String roomName){
+    public void turnOffLight(String roomName){
         try{
-            if(isAccessible(userName,roomName)) house.getRoom(roomName).turnOffLights();
+            house.getRoom(roomName).turnOffLights();
         }
         catch(Exception e){
 
         }
     }
-    public void lockDoor(String userName, String doorName){
+    public void lockDoor(String doorName){
         try{
-            if(isAccessible(userName,doorName)) house.getDoor(doorName).lock();
+            house.getDoor(doorName).lock();
         }
         catch(Exception e){
 
         }
     }
-    public void unlockDoor(String userName, String doorName){
+    public void unlockDoor(String doorName){
         try{
-            if(isAccessible(userName,doorName)) house.getDoor(doorName).unlock();
+            house.getDoor(doorName).unlock();
         }
         catch(Exception e){
 

@@ -23,9 +23,18 @@ public class Houses{
         HouseAccount house1Account = new HouseAccount(house1,users);
         houses[1] = house1Account;
     }
-    public HouseAccount getHouseAccount(int index){
-        try{return houses[index];}
-        catch(IndexOutOfBoundsException e){}
+    public HouseAccount findHouseAccount(String houseName){
+        boolean found = false;
+        int i=0;
+        while(found) {
+            try {
+                if (houses[i].getAccountName().matches(houseName)) {
+                    found = true;
+                    return houses[i];
+                }
+                i++;
+            } catch (IndexOutOfBoundsException e){}
+        }
         return null;
     }
 }

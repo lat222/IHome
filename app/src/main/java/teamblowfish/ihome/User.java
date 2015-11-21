@@ -35,8 +35,14 @@ public class User{
     public ListIterator<Room> getAccessibleRooms(){
         return accessibleRooms.listIterator();
     }
+    public int getNumRooms(){
+        return accessibleRooms.size();
+    }
     public ListIterator<Door> getAccessibleDoors(){
         return accessibleDoors.listIterator();
+    }
+    public int getNumDoors(){
+        return accessibleDoors.size();
     }
     public boolean isAccessibleTemp(){
         return accessibleTemp;

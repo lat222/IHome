@@ -4,9 +4,10 @@ public class House{
     private Room[] rooms;
     private Door[] doors;
     private int temperature;
-
+    private String name;
     /**
      * constructs house
+     * @param name String for the name of the House
      * @param rooms an array of rooms
      * @param doors an array of doors
      * @param temp an integer of the house temperature
@@ -16,6 +17,12 @@ public class House{
         this.rooms = rooms;
         this.doors = doors;
         temperature = temp;
+    }
+    public Door[] getDoors(){
+        return doors;
+    }
+    public Room[] getRooms(){
+        return rooms;
     }
     /**
      * allows access to rooms within the house
