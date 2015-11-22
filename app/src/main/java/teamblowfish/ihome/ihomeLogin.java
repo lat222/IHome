@@ -5,7 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class ihomeLogin extends AppCompatActivity {
 
@@ -45,7 +47,7 @@ public class ihomeLogin extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void logIn(){
+    public void logIn(View view){
         // Store values at the time of the login attempt.
         String user = mUserView.getText().toString();
         String house = mHouseView.getText().toString();
@@ -55,11 +57,25 @@ public class ihomeLogin extends AppCompatActivity {
             User userAccount = houseAccount.getUser(user);
             if(userAccount!=null){
                 //TODO go to main activity
-                Intent main = new Intent(this,MainActivity.class);
-                main.putExtra("user", userAccount);
-                main.putExtra("house", house);
+                Intent main = new Intent(this,Choose.class);
+                //main.putExtra("user", user);
+                //main.putExtra("house", house);
+                main.putExtra("userAndHouse", new String[] {user,house});
                 startActivity(main);
             }
+            else{
+                String userDNE = String.format("The user %s does not exist!",user);
+                Toast.makeText(getApplicationContext(), userDNE, Toast.LENGTH_SHORT).show();
+            }
         }
+        else{
+            String houseDNE = String.format("The house %s does not exist!",house);
+            Toast.makeText(getApplicationContext(), houseDNE, Toast.LENGTH_SHORT).show();
+
+        }
+        /*Intent main = new Intent(this,Choose.class);
+        main.putExtra("userAndHouse", new String[] {user,house});
+        //main.putExtra("house", house);
+        startActivity(main);*/
     }
 }

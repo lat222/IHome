@@ -31,7 +31,7 @@ public class HouseAccount {
         User userToRemove = null;
         while (userIterator.hasNext()){
             User returnedUser = userIterator.next();
-            if(returnedUser.getName().matches(name)){
+            if(returnedUser.getName().equals(name)){
                 userToRemove=returnedUser;
             }
         }
@@ -45,7 +45,7 @@ public class HouseAccount {
      */
     public String[] getDoorNames(String userName){
         Door[] doors = house.getDoors();
-        String[] doorNames = String[getUser(userName).getNumRooms()];
+        String[] doorNames = new String[getUser(userName).getNumRooms()];
         for(int i=0;i<doors.length;i++){
             if(isAccessible(userName,doors[i].getName())){
                 doorNames[i]=doors[i].getName();
@@ -59,7 +59,7 @@ public class HouseAccount {
      */
     public String[] getRoomNames(String userName){
         Room[] rooms = house.getRooms();
-        String[] roomNames = String[getUser(userName).getNumRooms()];
+        String[] roomNames = new String[getUser(userName).getNumRooms()];
         for(int i=0;i<rooms.length;i++){
             if(isAccessible(userName,rooms[i].getName())){
                 roomNames[i]=rooms[i].getName();
@@ -72,7 +72,7 @@ public class HouseAccount {
         ListIterator<User> userIterator = users.listIterator();
         while(userIterator.hasNext()){
             User returnedUser = userIterator.next();
-            if(returnedUser.getName().matches(userName)){
+            if(returnedUser.getName().equals(userName)){
                 return returnedUser;
             }
         }
@@ -85,14 +85,14 @@ public class HouseAccount {
         ListIterator<Door> accessDoors = user.getAccessibleDoors();
         while(accessDoors.hasNext()){
             Door returnedDoor  = accessDoors.next();
-            if(returnedDoor.getName().matches(objectName)){
+            if(returnedDoor.getName().equals(objectName)){
                 return true;
             }
         }
         ListIterator<Room> accessRooms = user.getAccessibleRooms();
         while(accessRooms.hasNext()){
             Room returnedRoom = accessRooms.next();
-            if(returnedRoom.getName().matches(objectName)){
+            if(returnedRoom.getName().equals(objectName)){
                 return true;
             }
         }

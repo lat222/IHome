@@ -26,10 +26,38 @@ public class User{
     public String getName(){
         return name;
     }
-    public void changeAccess(String userName, String objectName, boolean access){
-
+    public void changeRoomAccess(String roomName, boolean access){
+        if(access){
+            ListIterator<Room> roomIterator = accessibleRooms.listIterator();
+            while(roomIterator.hasNext()){
+                Room returnedRoom = roomIterator.next();
+                if(returnedRoom.getName().equals(roomName)){
+                    break;
+                }
+            }
+            Room roomToAdd = new Room(roomName);
+            accessibleRooms.add(roomToAdd);
+        }
+        else{
+            ListIterator<Room> roomIterator = accessibleRooms.listIterator();
+            while(roomIterator.hasNext()){
+                Room returnedRoom = roomIterator.next();
+                if(returnedRoom.getName().equals(roomName)){
+                    accessibleRooms.remove(returnedRoom);
+                    break;
+                }
+            }
+        }
     }
-    public void tempAccess(String userName, boolean access){
+    public void changeDoorAccess(String doorName, boolean access){
+        if(access){
+            ListIterator<Door> doorIterator = accessibleDoors.listIterator();
+        }
+        else{
+
+        }
+    }
+    public void tempAccess(boolean access){
 
     }
     public ListIterator<Room> getAccessibleRooms(){

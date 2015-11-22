@@ -9,33 +9,39 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class Choose extends AppCompatActivity {
 
     private HouseAccount houseAccount;
     private String house;
     private String user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_choose);
 
         Houses housesDB = new Houses();
 
         Intent loginIntent = getIntent();
-        house = loginIntent.getStringExtra("house");
+        String[] userAndHouse = loginIntent.getStringArrayExtra("userAndHouse");
+        house = userAndHouse[1];
+        Toast.makeText(getApplicationContext(),house,Toast.LENGTH_SHORT).show();
         houseAccount = housesDB.findHouseAccount(house);
-        user = loginIntent.getStringExtra("user");
+        user = userAndHouse[0];
+
+        //Toast.makeText(getApplicationContext(),user,Toast.LENGTH_SHORT).show();
 
         populateButtons();
 
-
+        Toast.makeText(getApplicationContext(),user,Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_choose, menu);
         return true;
     }
 
@@ -58,11 +64,24 @@ public class MainActivity extends AppCompatActivity {
         User userAccount = houseAccount.getUser(user);
         TableLayout table = (TableLayout) findViewById(R.id.tableForButtons);
         table.removeAllViewsInLayout();
+
         if(userAccount.getNumRooms()!=0){
+            Toast.makeText(getApplicationContext(),Integer.toString(userAccount.getNumRooms()),Toast.LENGTH_SHORT).show();
             TableRow tablerow = new TableRow(this);
             table.addView(tablerow);
             Button button=new Button(this);
             button.setText("Rooms");
+            button.setPadding(0, 0, 0, 0);     //keeps text from being clipped
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent toDoors = new Intent(Choose.this, LightActivity.class);
+                    toDoors.putExtra("house", house);
+                    toDoors.putExtra("user", user);
+                    startActivity(toDoors);
+                }
+            });
+            tablerow.addView(button);
         }
         if(userAccount.getNumDoors()!=0) {
             TableRow tablerow = new TableRow(this);
@@ -73,18 +92,28 @@ public class MainActivity extends AppCompatActivity {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent toDoors = new Intent(this, DoorActivity.class);
+                    Intent toDoors = new Intent(Choose.this, DoorActivity.class);
                     toDoors.putExtra("house", house);
                     toDoors.putExtra("user", user);
                     startActivity(toDoors);
                 }
             });
         }
-            if(userAccount.isAccessibleTemp()){
+        if(userAccount.isAccessibleTemp()){
             TableRow tablerow = new TableRow(this);
             table.addView(tablerow);
             Button button=new Button(this);
             button.setText("Temperature");
+            button.setPadding(0, 0, 0, 0);     //keeps text from being clipped
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent toDoors = new Intent(Choose.this, TempActivity.class);
+                    toDoors.putExtra("house", house);
+                    toDoors.putExtra("user", user);
+                    startActivity(toDoors);
+                }
+            });
         }
     }
 }
