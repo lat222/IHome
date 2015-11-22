@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.Toast;
 
 public class DoorActivity extends AppCompatActivity {
 
@@ -56,19 +57,35 @@ public class DoorActivity extends AppCompatActivity {
     }
     public void populateButtons() {
         //User userAccount = houseAccount.getUser(user);
-        String[] accessibleDoors = houseAccount.getDoorNames(user);
+        final String[] accessibleDoors = houseAccount.getDoorNames(user);
         TableLayout table = (TableLayout) findViewById(R.id.tableForButtons);
         table.removeAllViewsInLayout();
         for(int i=0; i<accessibleDoors.length;i++) {
             TableRow tablerow = new TableRow(this);
             table.addView(tablerow);
-            Button button = new Button(this);
+            final Button button = new Button(this);
+            final int doorIndex = i;
             button.setText(accessibleDoors[i]);
+            Toast.makeText(getApplicationContext(),"Within populateButtons",Toast.LENGTH_SHORT).show();
+            if(houseAccount.doorSetting(accessibleDoors[i])){
+                button.setBackgroundResource(R.drawable.lock_closed);
+            }
+            else{
+                button.setBackgroundResource(R.drawable.lock_open);
+            }
             button.setPadding(0, 0, 0, 0);     //keeps text from being clipped
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //TODO create buttons for lights and set to actual light setting
+                    if (houseAccount.doorSetting(accessibleDoors[doorIndex])) {
+                        houseAccount.unlockDoor(accessibleDoors[doorIndex]);
+                        button.setBackgroundResource(R.drawable.lock_open);
+                    }
+                    else{
+                        houseAccount.lockDoor(accessibleDoors[doorIndex]);
+                        button.setBackgroundResource(R.drawable.lock_closed);
+                    }
+
                 }
             });
             tablerow.addView(button);

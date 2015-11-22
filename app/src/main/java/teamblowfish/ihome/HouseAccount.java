@@ -45,7 +45,7 @@ public class HouseAccount {
      */
     public String[] getDoorNames(String userName){
         Door[] doors = house.getDoors();
-        String[] doorNames = new String[getUser(userName).getNumRooms()];
+        String[] doorNames = new String[getUser(userName).getNumDoors()];
         for(int i=0;i<doors.length;i++){
             if(isAccessible(userName,doors[i].getName())){
                 doorNames[i]=doors[i].getName();
@@ -98,8 +98,18 @@ public class HouseAccount {
         }
         return false;
     }
-
-    //since only the rooms and doorsthat are accessible will be created into buttons
+    public boolean doorSetting(String doorName){
+        boolean locked = house.getDoor(doorName).isLocked();
+        return locked;
+    }
+    public boolean roomSetting(String roomName){
+        boolean lit = house.getRoom(roomName).isLit();
+        return lit;
+    }
+    public int tempSetting(){
+        return house.getTemp();
+    }
+    //since only the rooms and doors that are accessible will be created into buttons
     //these methods do not need to check that.
     public void changeTemp(int temp){
         try{

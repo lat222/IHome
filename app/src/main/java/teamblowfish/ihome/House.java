@@ -30,7 +30,7 @@ public class House{
     */
     public Room getRoom(String roomName){
         for(int i=0; i<rooms.length;i++){
-            if(rooms[i].getName().matches(roomName)) return rooms[i];
+            if(rooms[i].getName().equals(roomName)) return rooms[i];
         }
         return null;
     }
@@ -41,7 +41,7 @@ public class House{
      */
     public Door getDoor(String doorName){
         for(int i=0; i<doors.length;i++){
-            if(rooms[i].getName().matches(doorName)) return doors[i];
+            if(rooms[i].getName().equals(doorName)) return doors[i];
         }
         return null;
     }
