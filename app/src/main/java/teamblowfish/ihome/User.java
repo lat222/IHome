@@ -52,13 +52,28 @@ public class User{
     public void changeDoorAccess(String doorName, boolean access){
         if(access){
             ListIterator<Door> doorIterator = accessibleDoors.listIterator();
+            while(doorIterator.hasNext()){
+                Door returnedDoor = doorIterator.next();
+                if(returnedDoor.getName().equals(doorName)){
+                    break;
+                }
+            }
+            Door doorToAdd = new Door(doorName);
+            accessibleDoors.add(doorToAdd);
         }
         else{
-
+            ListIterator<Door> doorIterator = accessibleDoors.listIterator();
+            while(doorIterator.hasNext()){
+                Door returnedDoor = doorIterator.next();
+                if(returnedDoor.getName().equals(doorName)){
+                    accessibleDoors.remove(returnedDoor);
+                    break;
+                }
+            }
         }
     }
     public void tempAccess(boolean access){
-
+        accessibleTemp=access;
     }
     public ListIterator<Room> getAccessibleRooms(){
         return accessibleRooms.listIterator();

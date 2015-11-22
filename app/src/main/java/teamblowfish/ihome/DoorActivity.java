@@ -1,16 +1,36 @@
 package teamblowfish.ihome;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 
 public class DoorActivity extends AppCompatActivity {
+
+    private HouseAccount houseAccount;
+    private String house;
+    private String user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_door);
+
+        Houses housesDB = new Houses();
+
+        Intent loginIntent = getIntent();
+        String[] userAndHouse = loginIntent.getStringArrayExtra("userAndHouse");
+        house = userAndHouse[1];
+        //Toast.makeText(getApplicationContext(),house,Toast.LENGTH_SHORT).show();
+        houseAccount = housesDB.findHouseAccount(house);
+        user = userAndHouse[0];
+
+        populateButtons();
     }
 
     @Override
@@ -34,4 +54,24 @@ public class DoorActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    public void populateButtons() {
+        //User userAccount = houseAccount.getUser(user);
+        String[] accessibleDoors = houseAccount.getDoorNames(user);
+        TableLayout table = (TableLayout) findViewById(R.id.tableForButtons);
+        table.removeAllViewsInLayout();
+        for(int i=0; i<accessibleDoors.length;i++) {
+            TableRow tablerow = new TableRow(this);
+            table.addView(tablerow);
+            Button button = new Button(this);
+            button.setText(accessibleDoors[i]);
+            button.setPadding(0, 0, 0, 0);     //keeps text from being clipped
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //TODO create buttons for lights and set to actual light setting
+                }
+            });
+            tablerow.addView(button);
+        }
+}
 }

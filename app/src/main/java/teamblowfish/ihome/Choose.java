@@ -27,15 +27,13 @@ public class Choose extends AppCompatActivity {
         Intent loginIntent = getIntent();
         String[] userAndHouse = loginIntent.getStringArrayExtra("userAndHouse");
         house = userAndHouse[1];
-        Toast.makeText(getApplicationContext(),house,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(),house,Toast.LENGTH_SHORT).show();
         houseAccount = housesDB.findHouseAccount(house);
         user = userAndHouse[0];
 
         //Toast.makeText(getApplicationContext(),user,Toast.LENGTH_SHORT).show();
 
         populateButtons();
-
-        Toast.makeText(getApplicationContext(),user,Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -66,7 +64,7 @@ public class Choose extends AppCompatActivity {
         table.removeAllViewsInLayout();
 
         if(userAccount.getNumRooms()!=0){
-            Toast.makeText(getApplicationContext(),Integer.toString(userAccount.getNumRooms()),Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(),Integer.toString(userAccount.getNumRooms()),Toast.LENGTH_SHORT).show();
             TableRow tablerow = new TableRow(this);
             table.addView(tablerow);
             Button button=new Button(this);
@@ -76,14 +74,14 @@ public class Choose extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Intent toDoors = new Intent(Choose.this, LightActivity.class);
-                    toDoors.putExtra("house", house);
-                    toDoors.putExtra("user", user);
+                    toDoors.putExtra("userAndHouse", new String[]{user, house});
                     startActivity(toDoors);
                 }
             });
             tablerow.addView(button);
         }
         if(userAccount.getNumDoors()!=0) {
+            Toast.makeText(getApplicationContext(),Integer.toString(userAccount.getNumDoors()),Toast.LENGTH_SHORT).show();
             TableRow tablerow = new TableRow(this);
             table.addView(tablerow);
             Button button = new Button(this);
@@ -92,12 +90,12 @@ public class Choose extends AppCompatActivity {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent toDoors = new Intent(Choose.this, DoorActivity.class);
-                    toDoors.putExtra("house", house);
-                    toDoors.putExtra("user", user);
-                    startActivity(toDoors);
+                    Intent toRooms = new Intent(Choose.this, DoorActivity.class);
+                    toRooms.putExtra("userAndHouse", new String[]{user, house});
+                    startActivity(toRooms);
                 }
             });
+            tablerow.addView(button);
         }
         if(userAccount.isAccessibleTemp()){
             TableRow tablerow = new TableRow(this);
@@ -108,12 +106,12 @@ public class Choose extends AppCompatActivity {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent toDoors = new Intent(Choose.this, TempActivity.class);
-                    toDoors.putExtra("house", house);
-                    toDoors.putExtra("user", user);
-                    startActivity(toDoors);
+                    Intent toTemp = new Intent(Choose.this, TempActivity.class);
+                    toTemp.putExtra("userAndHouse", new String[] {user,house});
+                    startActivity(toTemp);
                 }
             });
+            tablerow.addView(button);
         }
     }
 }

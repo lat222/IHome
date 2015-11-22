@@ -55,6 +55,9 @@ public class Houses{
         roomate5.changeRoomAccess("Greg's room",true);
         roomate5.changeRoomAccess("Bathroom",true);
         roomate5.changeRoomAccess("Living Room",true);
+        roomate5.changeDoorAccess("Front",true);
+        roomate5.changeDoorAccess("Back",true);
+        roomate5.tempAccess(true);
         User roomate6 = new User("Bobby", 'l');
         User roomate7 = new User("Greg", 'l');
         users3.add(roomate5);
