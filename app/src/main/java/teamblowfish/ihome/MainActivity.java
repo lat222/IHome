@@ -5,10 +5,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 
 public class MainActivity extends AppCompatActivity {
 
     private HouseAccount houseAccount;
+    private String house;
     private String user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,10 +23,12 @@ public class MainActivity extends AppCompatActivity {
         Houses housesDB = new Houses();
 
         Intent loginIntent = getIntent();
-        houseAccount = housesDB.findHouseAccount(loginIntent.getStringExtra("house"));
+        house = loginIntent.getStringExtra("house");
+        houseAccount = housesDB.findHouseAccount(house);
         user = loginIntent.getStringExtra("user");
 
-        for
+        populateButtons();
+
 
     }
 
@@ -45,5 +52,39 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void populateButtons() {
+        User userAccount = houseAccount.getUser(user);
+        TableLayout table = (TableLayout) findViewById(R.id.tableForButtons);
+        table.removeAllViewsInLayout();
+        if(userAccount.getNumRooms()!=0){
+            TableRow tablerow = new TableRow(this);
+            table.addView(tablerow);
+            Button button=new Button(this);
+            button.setText("Rooms");
+        }
+        if(userAccount.getNumDoors()!=0) {
+            TableRow tablerow = new TableRow(this);
+            table.addView(tablerow);
+            Button button = new Button(this);
+            button.setText("Doors");
+            button.setPadding(0, 0, 0, 0);     //keeps text from being clipped
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent toDoors = new Intent(this, DoorActivity.class);
+                    toDoors.putExtra("house", house);
+                    toDoors.putExtra("user", user);
+                    startActivity(toDoors);
+                }
+            });
+        }
+            if(userAccount.isAccessibleTemp()){
+            TableRow tablerow = new TableRow(this);
+            table.addView(tablerow);
+            Button button=new Button(this);
+            button.setText("Temperature");
+        }
     }
 }
