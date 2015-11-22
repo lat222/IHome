@@ -99,8 +99,12 @@ public class HouseAccount {
         return false;
     }
     public boolean doorSetting(String doorName){
-        boolean locked = house.getDoor(doorName).isLocked();
-        return locked;
+        //TODO fix nullException
+        if(house.getDoor(doorName)!=null){
+            return house.getDoor(doorName).isLocked();
+        }
+        //boolean locked = house.getDoor(doorName).isLocked();
+        return false;
     }
     public boolean roomSetting(String roomName){
         boolean lit = house.getRoom(roomName).isLit();
