@@ -1,5 +1,6 @@
 package teamblowfish.ihome;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -54,6 +55,10 @@ public class ihomeLogin extends AppCompatActivity {
             User userAccount = houseAccount.getUser(user);
             if(userAccount!=null){
                 //TODO go to main activity
+                Intent main = new Intent(this,MainActivity.class);
+                main.putExtra("user", userAccount);
+                main.putExtra("house", house);
+                startActivity(main);
             }
         }
     }
