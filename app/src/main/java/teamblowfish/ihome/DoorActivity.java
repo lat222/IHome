@@ -21,7 +21,7 @@ public class DoorActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_door);
-        setTitle("Lock and Unlock Doors");
+        setTitle("Unlock/Lock Doors");
 
         Houses housesDB = new Houses();
 
@@ -58,7 +58,7 @@ public class DoorActivity extends AppCompatActivity {
     }
     public void populateButtons() {
         //User userAccount = houseAccount.getUser(user);
-        final String[] accessibleDoors = houseAccount.getDoorNames(user);
+        final int[] accessibleDoors = houseAccount.getDoorAccess(user);
         //final String[] accessibleDoors = {"Front","Back"};
         TableLayout table = (TableLayout) findViewById(R.id.tableForButtons);
         table.removeAllViewsInLayout();
@@ -67,7 +67,7 @@ public class DoorActivity extends AppCompatActivity {
             table.addView(tablerow);
             final Button button = new Button(this);
             final int doorIndex = i;
-            button.setText(accessibleDoors[i]);
+            button.setText(houseAccount.getDoor(accessibleDoors[doorIndex]).getName());
             //Toast.makeText(getApplicationContext(),accessibleDoors[i],Toast.LENGTH_SHORT).show();
             if(houseAccount.getDoor(accessibleDoors[doorIndex]).isLocked()){
                 button.setBackgroundResource(R.drawable.lock_closed);

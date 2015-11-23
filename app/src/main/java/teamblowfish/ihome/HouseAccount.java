@@ -16,12 +16,23 @@ public class HouseAccount {
     String accountName;
     LinkedList<User> users;
 
-    public HouseAccount(String accountName, Room[] rooms, Door[] doors, int temp, LinkedList<User> users){
+    public HouseAccount(String accountName, Room[] rooms, Door[] doors, int temp, String userName){
         //this.house = house;
         this.rooms = rooms;
         this.doors = doors;
         temperature = temp;
-        this.users = users;
+        users = new LinkedList<User>();
+        User admin = new User(userName);
+        users.add(admin);
+        admin.setAccountType('a');
+        //sets up an admin account
+        for(int i=0; i<rooms.length;i++){
+            admin.changeRoomAccess(i,true);
+        }
+        for(int i=0;i<doors.length;i++){
+            admin.changeDoorAccess(i,true);
+        }
+        admin.tempAccess(true);
         this.accountName=accountName;
     }
 
@@ -30,16 +41,16 @@ public class HouseAccount {
      * @return name of house account
      */
     public String getAccountName(){ return accountName;}
-    public void add(String name, char accessType){
-        User newUser = new User(name,accessType);
+    public void add(String name){
+        User newUser = new User(name);
         users.add(newUser);
     }
-    public void delete(String name){
+    public void remove(String name){
         ListIterator<User> userIterator = users.listIterator();
         User userToRemove = null;
         while (userIterator.hasNext()){
             User returnedUser = userIterator.next();
-            if(returnedUser.getName().equals(name)){
+            if(returnedUser.getName().equals(name)&&returnedUser.getAccountType()!='a'){
                 userToRemove=returnedUser;
             }
         }
@@ -47,36 +58,40 @@ public class HouseAccount {
         //here to catch if the userToRemove is still null
         catch(Exception e){}
     }
+    public int getNumUsers(){
+        return users.size();
+    }
     /**
      * gives door names in order to create buttons
      * @return String array with door names
      */
-    public String[] getDoorNames(String userName){
-        String[] doorNames = new String[getUser(userName).getNumDoors()];
+    public int[] getDoorAccess(String userName){
+        int[] doorIndices = new int[getUser(userName).getNumDoors()];
+        ListIterator<Integer> accessibleDoors = getUser(userName).getAccessibleDoors();
         int j=0;
-        for(int i=0;i<doors.length;i++){
-            if(isAccessibleDoor(userName, doors[i].getName())==true){
+        while(accessibleDoors.hasNext()){
+            int returnedIndex = accessibleDoors.next();
+            doorIndices[j]=returnedIndex;
+            j++;
 
-                doorNames[j]=doors[i].getName();
-                j++;
-            }
         }
-        return doorNames;
+        return doorIndices;
     }
     /**
      * gives room names in order to create buttons
      * @return String array with room names
      */
-    public String[] getRoomNames(String userName){
-        //Room[] rooms = house.getRooms();
-        String[] roomNames = new String[getUser(userName).getNumRooms()];
-        for(int i=0;i<rooms.length;i++){
-            if(isAccessibleRoom(userName,rooms[i].getName())==true){
-                roomNames[i]=rooms[i].getName();
-            }
+    public int[] getRoomAccess(String userName){
+        int[] roomIndices = new int[getUser(userName).getNumRooms()];
+        ListIterator<Integer> accessibleRooms = getUser(userName).getAccessibleRooms();
+        int j=0;
+        while(accessibleRooms.hasNext()){
+            int returnedIndex = accessibleRooms.next();
+            roomIndices[j]=returnedIndex;
+            j++;
 
         }
-        return roomNames;
+        return roomIndices;
     }
     public User getUser(String userName){
         ListIterator<User> userIterator = users.listIterator();
@@ -88,43 +103,43 @@ public class HouseAccount {
         }
         return null;
     }
-    private boolean isAccessibleDoor(String userName, String objectName){
+    public ListIterator<User> getUsers(){
+        return users.listIterator();
+    }
+    private boolean isAccessibleDoor(String userName, int index){
         User user = getUser(userName);
-        ListIterator<Door> accessDoors = user.getAccessibleDoors();
+        ListIterator<Integer> accessDoors = user.getAccessibleDoors();
         while(accessDoors.hasNext()){
-            Door returnedDoor  = accessDoors.next();
-            if(returnedDoor.getName().equals(objectName)){
+            int returnedDoor  = accessDoors.next();
+            if(returnedDoor==index){
                 return true;
             }
         }
         return false;
     }
-    private boolean isAccessibleRoom(String userName, String objectName){
+    /*private boolean isAccessibleRoom(String userName, int index){
         //Assumes doors and room are not named the same thing.
         //boolean isAccessible;
         User user = getUser(userName);
-        ListIterator<Room> accessRooms = user.getAccessibleRooms();
+        ListIterator<Integer> accessRooms = user.getAccessibleRooms();
         while(accessRooms.hasNext()){
-            Room returnedRoom = accessRooms.next();
-            if(returnedRoom.getName().equals(objectName)){
+            int returnedRoom = accessRooms.next();
+            if(returnedRoom==index){
                 return true;
             }
         }
         return false;
+    }*/
+    public Room getRoom(int index){
+        return rooms[index];
     }
-    public Room getRoom(String roomName){
-        for(int i=0; i<rooms.length;i++){
-            if(rooms[i].getName().equals(roomName)) return rooms[i];
-        }
-        return null;
-    }
-    public Door getDoor(String doorName){
-        for(int i=0; i<doors.length;i++){
+    public Door getDoor(int index){
+        /*for(int i=0; i<doors.length;i++){
             if(doors[i].getName().equals(doorName)){
                 return doors[i];
             }
-        }
-        return doors[0];
+        }*/
+        return doors[index];
     }
     public int tempSetting(){
         return temperature;
@@ -134,34 +149,34 @@ public class HouseAccount {
     public void changeTemp(int temp){
         temperature=temp;
     }
-    public void turnOnLight(String roomName){
+    public void turnOnLight(int index){
         try{
-            getRoom(roomName).light();
+            rooms[index].light();
         }
         catch(Exception e){
 
         }
 
     }
-    public void turnOffLight(String roomName){
+    public void turnOffLight(int index){
         try{
-            getRoom(roomName).turnOffLights();
+            rooms[index].turnOffLights();
         }
         catch(Exception e){
 
         }
     }
-    public void lockDoor(String doorName){
+    public void lockDoor(int index){
         try{
-            getDoor(doorName).lock();
+            doors[index].lock();
         }
         catch(Exception e){
 
         }
     }
-    public void unlockDoor(String doorName){
+    public void unlockDoor(int index){
         try{
-            getDoor(doorName).unlock();
+            doors[index].unlock();
         }
         catch(Exception e){
 

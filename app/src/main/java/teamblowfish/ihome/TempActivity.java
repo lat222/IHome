@@ -1,5 +1,6 @@
 package teamblowfish.ihome;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -7,12 +8,26 @@ import android.view.MenuItem;
 
 public class TempActivity extends AppCompatActivity {
 
+    private HouseAccount houseAccount;
+    private String house;
+    private String user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_temp);
 
         setTitle("Change House Temperature");
+
+        Houses housesDB = new Houses();
+
+        Intent loginIntent = getIntent();
+        String[] userAndHouse = loginIntent.getStringArrayExtra("userAndHouse");
+        house = userAndHouse[1];
+        //Toast.makeText(getApplicationContext(),house,Toast.LENGTH_SHORT).show();
+        houseAccount = housesDB.findHouseAccount(house);
+        user = userAndHouse[0];
+
     }
 
     @Override

@@ -56,36 +56,36 @@ public class LightActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
     public void populateButtons() {
         //User userAccount = houseAccount.getUser(user);
-        final String[] accessibleDoors = houseAccount.getDoorNames(user);
-        //final String[] accessibleDoors = {"Front","Back"};
+        final int[] accessibleRooms = houseAccount.getRoomAccess(user);
         TableLayout table = (TableLayout) findViewById(R.id.tableForButtons);
         table.removeAllViewsInLayout();
-        for(int i=0; i<accessibleDoors.length;i++) {
+        for(int i=0; i<accessibleRooms.length;i++) {
             TableRow tablerow = new TableRow(this);
             table.addView(tablerow);
             final Button button = new Button(this);
-            final int doorIndex = i;
-            button.setText(accessibleDoors[i]);
+            final int roomIndex = i;
+            button.setText(houseAccount.getRoom(accessibleRooms[roomIndex]).getName());
             //Toast.makeText(getApplicationContext(),accessibleDoors[i],Toast.LENGTH_SHORT).show();
-            if(houseAccount.getDoor(accessibleDoors[doorIndex]).isLocked()){
-                button.setBackgroundResource(R.drawable.lock_closed);
+            if(houseAccount.getRoom(accessibleRooms[roomIndex]).isLit()){
+                button.setBackgroundResource(R.drawable.lit1);
             }
             else{
-                button.setBackgroundResource(R.drawable.lock_open);
+                button.setBackgroundResource(R.drawable.unlit);
             }
             button.setPadding(0, 0, 0, 0);     //keeps text from being clipped
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (houseAccount.getDoor(accessibleDoors[doorIndex]).isLocked()) {
-                        houseAccount.unlockDoor(accessibleDoors[doorIndex]);
-                        button.setBackgroundResource(R.drawable.lock_open);
+                    if (houseAccount.getRoom(accessibleRooms[roomIndex]).isLit()) {
+                        houseAccount.turnOffLight(accessibleRooms[roomIndex]);
+                        button.setBackgroundResource(R.drawable.lit1);
                     }
                     else{
-                        houseAccount.lockDoor(accessibleDoors[doorIndex]);
-                        button.setBackgroundResource(R.drawable.lock_closed);
+                        houseAccount.turnOnLight(accessibleRooms[roomIndex]);
+                        button.setBackgroundResource(R.drawable.unlit);
                     }
 
                 }

@@ -4,24 +4,21 @@ import java.util.ListIterator;
 
 public class User{
     String name;
-    LinkedList<Room> accessibleRooms;
-    LinkedList<Door> accessibleDoors;
+    LinkedList<Integer> accessibleRooms;
+    LinkedList<Integer> accessibleDoors;
     boolean accessibleTemp;
     char accountType;
 
     /**
      * constructs a user with no rooms or doors accessible and no access to change temperature.
      * @param name the name of the user
-     * @param type either 'l' or 'a', which stand for limited or administrator. Although if the entered
-     *             char is not 'a', the user will have limited access to rooms
      */
-    public User(String name, char type){
+    public User(String name){
         this.name = name;
-        accessibleRooms = new LinkedList<Room>();
-        accessibleDoors = new LinkedList<Door>();
+        accessibleRooms = new LinkedList<Integer>();
+        accessibleDoors = new LinkedList<Integer>();
         accessibleTemp = false;
-        if(type=='a') accountType = type;
-        else accountType = 'l';
+        accountType = 'l';
     }
     public char getAccountType(){ return accountType; }
     public void setAccountType(char access){
@@ -35,46 +32,46 @@ public class User{
     public String getName(){
         return name;
     }
-    public void changeRoomAccess(String roomName, boolean access){
+    public void changeRoomAccess(int index, boolean access){
         if(access){
-            ListIterator<Room> roomIterator = accessibleRooms.listIterator();
+            ListIterator<Integer> roomIterator = accessibleRooms.listIterator();
             while(roomIterator.hasNext()){
-                Room returnedRoom = roomIterator.next();
-                if(returnedRoom.getName().equals(roomName)){
+                int returnedRoom = roomIterator.next();
+                if(returnedRoom==index){
                     break;
                 }
             }
-            Room roomToAdd = new Room(roomName);
+            int roomToAdd = index;
             accessibleRooms.add(roomToAdd);
         }
         else{
-            ListIterator<Room> roomIterator = accessibleRooms.listIterator();
+            ListIterator<Integer> roomIterator = accessibleRooms.listIterator();
             while(roomIterator.hasNext()){
-                Room returnedRoom = roomIterator.next();
-                if(returnedRoom.getName().equals(roomName)){
+                int returnedRoom = roomIterator.next();
+                if(returnedRoom==index){
                     accessibleRooms.remove(returnedRoom);
                     break;
                 }
             }
         }
     }
-    public void changeDoorAccess(String doorName, boolean access){
+    public void changeDoorAccess(int index, boolean access){
         if(access){
-            ListIterator<Door> doorIterator = accessibleDoors.listIterator();
+            ListIterator<Integer> doorIterator = accessibleDoors.listIterator();
             while(doorIterator.hasNext()){
-                Door returnedDoor = doorIterator.next();
-                if(returnedDoor.getName().equals(doorName)){
+                int returnedDoor = doorIterator.next();
+                if(returnedDoor==index){
                     break;
                 }
             }
-            Door doorToAdd = new Door(doorName);
+            int doorToAdd = index;
             accessibleDoors.add(doorToAdd);
         }
         else{
-            ListIterator<Door> doorIterator = accessibleDoors.listIterator();
+            ListIterator<Integer> doorIterator = accessibleDoors.listIterator();
             while(doorIterator.hasNext()){
-                Door returnedDoor = doorIterator.next();
-                if(returnedDoor.getName().equals(doorName)){
+                int returnedDoor = doorIterator.next();
+                if(returnedDoor==index){
                     accessibleDoors.remove(returnedDoor);
                     break;
                 }
@@ -84,13 +81,13 @@ public class User{
     public void tempAccess(boolean access){
         accessibleTemp=access;
     }
-    public ListIterator<Room> getAccessibleRooms(){
+    public ListIterator<Integer> getAccessibleRooms(){
         return accessibleRooms.listIterator();
     }
     public int getNumRooms(){
         return accessibleRooms.size();
     }
-    public ListIterator<Door> getAccessibleDoors(){
+    public ListIterator<Integer> getAccessibleDoors(){
         return accessibleDoors.listIterator();
     }
     public int getNumDoors(){

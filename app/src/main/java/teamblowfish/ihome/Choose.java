@@ -90,9 +90,9 @@ public class Choose extends AppCompatActivity {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent toDoors = new Intent(Choose.this, LightActivity.class);
-                    toDoors.putExtra("userAndHouse", new String[]{user, house});
-                    startActivity(toDoors);
+                    Intent toRooms = new Intent(Choose.this, LightActivity.class);
+                    toRooms.putExtra("userAndHouse", new String[]{user, house});
+                    startActivity(toRooms);
                 }
             });
             tablerow.addView(button);
@@ -107,9 +107,9 @@ public class Choose extends AppCompatActivity {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent toRooms = new Intent(Choose.this, DoorActivity.class);
-                    toRooms.putExtra("userAndHouse", new String[]{user, house});
-                    startActivity(toRooms);
+                    Intent toDoors = new Intent(Choose.this, DoorActivity.class);
+                    toDoors.putExtra("userAndHouse", new String[]{user, house});
+                    startActivity(toDoors);
                 }
             });
             tablerow.addView(button);
