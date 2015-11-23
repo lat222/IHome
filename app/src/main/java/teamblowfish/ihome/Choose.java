@@ -31,9 +31,24 @@ public class Choose extends AppCompatActivity {
         houseAccount = housesDB.findHouseAccount(house);
         user = userAndHouse[0];
 
+        if(houseAccount.getUser(user).getAccountType()=='a'){
+            Button settings = new Button(this);
+            settings.setText("Settings");
+            settings.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent toSettings = new Intent(Choose.this, Settings.class);
+                    toSettings.putExtra("userAndHouse", new String[]{user, house});
+                    startActivity(toSettings);
+                }
+            });
+
+        }
+
         //Toast.makeText(getApplicationContext(),user,Toast.LENGTH_SHORT).show();
 
         populateButtons();
+
     }
 
     @Override
@@ -61,7 +76,7 @@ public class Choose extends AppCompatActivity {
     public void populateButtons() {
         User userAccount = houseAccount.getUser(user);
         TableLayout table = (TableLayout) findViewById(R.id.tableForButtons);
-        table.removeAllViewsInLayout();
+        //table.removeAllViewsInLayout();
 
         if(userAccount.getNumRooms()!=0){
             //Toast.makeText(getApplicationContext(),Integer.toString(userAccount.getNumRooms()),Toast.LENGTH_SHORT).show();

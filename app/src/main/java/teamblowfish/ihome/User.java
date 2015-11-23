@@ -23,6 +23,15 @@ public class User{
         if(type=='a') accountType = type;
         else accountType = 'l';
     }
+    public char getAccountType(){ return accountType; }
+    public void setAccountType(char access){
+        if(access=='a'){
+            accountType = 'a';
+        }
+        else{
+            accountType = 'l';
+        }
+    }
     public String getName(){
         return name;
     }

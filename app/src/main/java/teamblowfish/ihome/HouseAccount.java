@@ -1,5 +1,7 @@
 package teamblowfish.ihome;
 
+import android.widget.Toast;
+
 import java.util.LinkedList;
 import java.util.ListIterator;
 
@@ -53,7 +55,7 @@ public class HouseAccount {
         String[] doorNames = new String[getUser(userName).getNumDoors()];
         int j=0;
         for(int i=0;i<doors.length;i++){
-            if(isAccessible(userName,doors[i].getName())){
+            if(isAccessibleDoor(userName, doors[i].getName())==true){
 
                 doorNames[j]=doors[i].getName();
                 j++;
@@ -69,7 +71,7 @@ public class HouseAccount {
         //Room[] rooms = house.getRooms();
         String[] roomNames = new String[getUser(userName).getNumRooms()];
         for(int i=0;i<rooms.length;i++){
-            if(isAccessible(userName,rooms[i].getName())){
+            if(isAccessibleRoom(userName,rooms[i].getName())==true){
                 roomNames[i]=rooms[i].getName();
             }
 
@@ -86,9 +88,7 @@ public class HouseAccount {
         }
         return null;
     }
-    private boolean isAccessible(String userName, String objectName){
-        //Assumes doors and room are not named the same thing.
-        //boolean isAccessible;
+    private boolean isAccessibleDoor(String userName, String objectName){
         User user = getUser(userName);
         ListIterator<Door> accessDoors = user.getAccessibleDoors();
         while(accessDoors.hasNext()){
@@ -97,6 +97,12 @@ public class HouseAccount {
                 return true;
             }
         }
+        return false;
+    }
+    private boolean isAccessibleRoom(String userName, String objectName){
+        //Assumes doors and room are not named the same thing.
+        //boolean isAccessible;
+        User user = getUser(userName);
         ListIterator<Room> accessRooms = user.getAccessibleRooms();
         while(accessRooms.hasNext()){
             Room returnedRoom = accessRooms.next();
@@ -114,25 +120,11 @@ public class HouseAccount {
     }
     public Door getDoor(String doorName){
         for(int i=0; i<doors.length;i++){
-            if(rooms[i].getName().equals(doorName)) return doors[i];
+            if(doors[i].getName().equals(doorName)){
+                return doors[i];
+            }
         }
-        return null;
-    }
-    public boolean doorSetting(String doorName){
-        try{
-            return getDoor(doorName).isLocked();
-        }
-        catch(NullPointerException e){
-            return false;
-        }
-    }
-    public boolean roomSetting(String roomName){
-        try{
-            return getRoom(roomName).isLit();
-        }
-        catch (NullPointerException e){
-            return false;
-        }
+        return doors[0];
     }
     public int tempSetting(){
         return temperature;
