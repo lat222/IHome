@@ -18,26 +18,26 @@ public class Houses{
         Door back = new Door("Back Door");
         Door[] doors1 = {front,back};
         int temp1 = 60;
-        House house1 = new House(rooms1,doors1,temp1);
+        //House house1 = new House(rooms1,doors1,temp1);
         LinkedList<User> users1 = new LinkedList();
         User roomate1 = new User("Dave",'a');
         User roomate2 = new User("Carrey", 'l');
         users1.add(roomate1);
         users1.add(roomate2);
-        HouseAccount house1Account = new HouseAccount("Roomies", house1,users1);
+        HouseAccount house1Account = new HouseAccount("Roomies", rooms1, doors1, temp1, users1);
         houses[0] = house1Account;
 
         Room bathroom = new Room("Bathroom");
         Room[] rooms2 = {kitchen,bedroom,bathroom};
         Door[] doors2 = {front};
         int temp2 = 63;
-        House house2 = new House(rooms2,doors2,temp2);
+        //House house2 = new House(rooms2,doors2,temp2);
         LinkedList<User> users2 = new LinkedList();
         User roomate3 = new User("Kelly",'a');
         User roomate4 = new User("Lyn", 'l');
         users2.add(roomate3);
         users2.add(roomate4);
-        HouseAccount house2Account = new HouseAccount("Cottage", house2,users2);
+        HouseAccount house2Account = new HouseAccount("Cottage", rooms2, doors2, temp2,users2);
         houses[1] = house2Account;
 
         Room bedroom1 = new Room("Bobby's room");
@@ -45,8 +45,9 @@ public class Houses{
         Room bedroom3 = new Room("Greg's room");
         Room[] rooms3 = {kitchen,bedroom1,bedroom2,bedroom3,living,bathroom};
         Door[] doors3 = {front,back};
+        doors3[1].lock();
         int temp3 = 44;
-        House house3 = new House(rooms3,doors3,temp3);
+        //House house3 = new House(rooms3,doors3,temp3);
         LinkedList<User> users3 = new LinkedList();
         User roomate5 = new User("Anna",'a');
         roomate5.changeRoomAccess("Kitchen",true);
@@ -63,7 +64,7 @@ public class Houses{
         users3.add(roomate5);
         users3.add(roomate6);
         users3.add(roomate7);
-        HouseAccount house3Account = new HouseAccount("House3", house3,users3);
+        HouseAccount house3Account = new HouseAccount("House3", rooms3, doors3, temp3,users3);
         houses[2] = house3Account;
 
 

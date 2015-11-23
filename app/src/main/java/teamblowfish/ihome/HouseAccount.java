@@ -51,9 +51,12 @@ public class HouseAccount {
      */
     public String[] getDoorNames(String userName){
         String[] doorNames = new String[getUser(userName).getNumDoors()];
+        int j=0;
         for(int i=0;i<doors.length;i++){
             if(isAccessible(userName,doors[i].getName())){
-                doorNames[i]=doors[i].getName();
+
+                doorNames[j]=doors[i].getName();
+                j++;
             }
         }
         return doorNames;
@@ -109,7 +112,7 @@ public class HouseAccount {
         }
         return null;
     }
-    private Door getDoor(String doorName){
+    public Door getDoor(String doorName){
         for(int i=0; i<doors.length;i++){
             if(rooms[i].getName().equals(doorName)) return doors[i];
         }

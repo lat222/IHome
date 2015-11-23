@@ -66,8 +66,8 @@ public class DoorActivity extends AppCompatActivity {
             final Button button = new Button(this);
             final int doorIndex = i;
             button.setText(accessibleDoors[i]);
-            Toast.makeText(getApplicationContext(),"Within populateButtons",Toast.LENGTH_SHORT).show();
-            if(houseAccount.doorSetting(accessibleDoors[i])){
+            Toast.makeText(getApplicationContext(),accessibleDoors[i],Toast.LENGTH_SHORT).show();
+            if(houseAccount.getDoor(accessibleDoors[doorIndex]).isLocked()){
                 button.setBackgroundResource(R.drawable.lock_closed);
             }
             else{
@@ -77,7 +77,7 @@ public class DoorActivity extends AppCompatActivity {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (houseAccount.doorSetting(accessibleDoors[doorIndex])) {
+                    if (houseAccount.getDoor(accessibleDoors[doorIndex]).isLocked()) {
                         houseAccount.unlockDoor(accessibleDoors[doorIndex]);
                         button.setBackgroundResource(R.drawable.lock_open);
                     }
