@@ -7,12 +7,18 @@ import java.util.ListIterator;
  * Created by Leia on 11/21/2015.
  */
 public class HouseAccount {
-    House house;
+    //House house;
+    Room[] rooms;
+    Door[] doors;
+    int temperature;
     String accountName;
     LinkedList<User> users;
 
-    public HouseAccount(String accountName, House house, LinkedList<User> users){
-        this.house = house;
+    public HouseAccount(String accountName, Room[] rooms, Door[] doors, int temp, LinkedList<User> users){
+        //this.house = house;
+        this.rooms = rooms;
+        this.doors = doors;
+        temperature = temp;
         this.users = users;
         this.accountName=accountName;
     }
@@ -44,7 +50,6 @@ public class HouseAccount {
      * @return String array with door names
      */
     public String[] getDoorNames(String userName){
-        Door[] doors = house.getDoors();
         String[] doorNames = new String[getUser(userName).getNumDoors()];
         for(int i=0;i<doors.length;i++){
             if(isAccessible(userName,doors[i].getName())){
@@ -58,7 +63,7 @@ public class HouseAccount {
      * @return String array with room names
      */
     public String[] getRoomNames(String userName){
-        Room[] rooms = house.getRooms();
+        //Room[] rooms = house.getRooms();
         String[] roomNames = new String[getUser(userName).getNumRooms()];
         for(int i=0;i<rooms.length;i++){
             if(isAccessible(userName,rooms[i].getName())){
@@ -80,7 +85,7 @@ public class HouseAccount {
     }
     private boolean isAccessible(String userName, String objectName){
         //Assumes doors and room are not named the same thing.
-        boolean isAccessible;
+        //boolean isAccessible;
         User user = getUser(userName);
         ListIterator<Door> accessDoors = user.getAccessibleDoors();
         while(accessDoors.hasNext()){
@@ -98,34 +103,45 @@ public class HouseAccount {
         }
         return false;
     }
-    public boolean doorSetting(String doorName){
-        //TODO fix nullException
-        if(house.getDoor(doorName)!=null){
-            return house.getDoor(doorName).isLocked();
+    public Room getRoom(String roomName){
+        for(int i=0; i<rooms.length;i++){
+            if(rooms[i].getName().equals(roomName)) return rooms[i];
         }
-        //boolean locked = house.getDoor(doorName).isLocked();
-        return false;
+        return null;
+    }
+    private Door getDoor(String doorName){
+        for(int i=0; i<doors.length;i++){
+            if(rooms[i].getName().equals(doorName)) return doors[i];
+        }
+        return null;
+    }
+    public boolean doorSetting(String doorName){
+        try{
+            return getDoor(doorName).isLocked();
+        }
+        catch(NullPointerException e){
+            return false;
+        }
     }
     public boolean roomSetting(String roomName){
-        boolean lit = house.getRoom(roomName).isLit();
-        return lit;
+        try{
+            return getRoom(roomName).isLit();
+        }
+        catch (NullPointerException e){
+            return false;
+        }
     }
     public int tempSetting(){
-        return house.getTemp();
+        return temperature;
     }
     //since only the rooms and doors that are accessible will be created into buttons
     //these methods do not need to check that.
     public void changeTemp(int temp){
-        try{
-            house.setTemp(temp);
-        }
-        catch(Exception e){
-
-        }
+        temperature=temp;
     }
     public void turnOnLight(String roomName){
         try{
-            house.getRoom(roomName).light();
+            getRoom(roomName).light();
         }
         catch(Exception e){
 
@@ -134,7 +150,7 @@ public class HouseAccount {
     }
     public void turnOffLight(String roomName){
         try{
-            house.getRoom(roomName).turnOffLights();
+            getRoom(roomName).turnOffLights();
         }
         catch(Exception e){
 
@@ -142,7 +158,7 @@ public class HouseAccount {
     }
     public void lockDoor(String doorName){
         try{
-            house.getDoor(doorName).lock();
+            getDoor(doorName).lock();
         }
         catch(Exception e){
 
@@ -150,7 +166,7 @@ public class HouseAccount {
     }
     public void unlockDoor(String doorName){
         try{
-            house.getDoor(doorName).unlock();
+            getDoor(doorName).unlock();
         }
         catch(Exception e){
 
