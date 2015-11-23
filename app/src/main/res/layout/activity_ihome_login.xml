@@ -16,7 +16,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="50dp"
-        android:textColorHint="@color/divider"/>
+        android:textColor="@color/primary_light"
+        android:textColorHint="@color/primary_light"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -28,7 +29,8 @@
         android:layout_alignParentStart="true"
         android:hint="Enter here"
         android:layout_marginBottom="50dp"
-        android:textColorHint="@color/divider"/>
+        android:textColor="@color/primary_light"
+        android:textColorHint="@color/primary_light"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -36,7 +38,6 @@
         android:text="Log in"
         android:id="@+id/login"
         android:onClick="logIn"
-        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/user" />
 
@@ -49,7 +50,7 @@
         android:layout_below="@+id/house"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="50dp" />
+        android:layout_marginBottom="25dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -61,6 +62,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="50dp" />
+        android:layout_marginBottom="25dp" />
 
 </RelativeLayout>

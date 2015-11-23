@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class DoorActivity extends AppCompatActivity {
@@ -16,6 +17,7 @@ public class DoorActivity extends AppCompatActivity {
     private HouseAccount houseAccount;
     private String house;
     private String user;
+    private int[] accessibleDoors;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,39 +60,46 @@ public class DoorActivity extends AppCompatActivity {
     }
     public void populateButtons() {
         //User userAccount = houseAccount.getUser(user);
-        final int[] accessibleDoors = houseAccount.getDoorAccess(user);
+        accessibleDoors = houseAccount.getDoorAccess(user);
         //final String[] accessibleDoors = {"Front","Back"};
         TableLayout table = (TableLayout) findViewById(R.id.tableForButtons);
         table.removeAllViewsInLayout();
-        for(int i=0; i<accessibleDoors.length;i++) {
+        for(int j=0; j<accessibleDoors.length/2;j++) {
             TableRow tablerow = new TableRow(this);
             table.addView(tablerow);
-            final Button button = new Button(this);
-            final int doorIndex = i;
-            button.setText(houseAccount.getDoor(accessibleDoors[doorIndex]).getName());
-            //Toast.makeText(getApplicationContext(),accessibleDoors[i],Toast.LENGTH_SHORT).show();
-            if(houseAccount.getDoor(accessibleDoors[doorIndex]).isLocked()){
-                button.setBackgroundResource(R.drawable.lock_closed);
-            }
-            else{
-                button.setBackgroundResource(R.drawable.lock_open);
-            }
-            button.setPadding(0, 0, 0, 0);     //keeps text from being clipped
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (houseAccount.getDoor(accessibleDoors[doorIndex]).isLocked()) {
-                        houseAccount.unlockDoor(accessibleDoors[doorIndex]);
-                        button.setBackgroundResource(R.drawable.lock_open);
-                    }
-                    else{
-                        houseAccount.lockDoor(accessibleDoors[doorIndex]);
-                        button.setBackgroundResource(R.drawable.lock_closed);
-                    }
-
+            for (int i = 0; i < 2; i++) {
+                final Button button = new Button(this);
+                final int doorIndex = i+(j*2);
+                //Toast.makeText(getApplicationContext(),accessibleDoors[i],Toast.LENGTH_SHORT).show();
+                if (houseAccount.getDoor(accessibleDoors[doorIndex]).isLocked()) {
+                    button.setBackgroundResource(R.drawable.locked);
+                } else {
+                    button.setBackgroundResource(R.drawable.unlocked);
                 }
-            });
-            tablerow.addView(button);
+                button.setPadding(0, 0, 0, 0);     //keeps text from being clipped
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (houseAccount.getDoor(accessibleDoors[doorIndex]).isLocked()) {
+                            houseAccount.unlockDoor(accessibleDoors[doorIndex]);
+                            button.setBackgroundResource(R.drawable.unlocked);
+                        } else {
+                            houseAccount.lockDoor(accessibleDoors[doorIndex]);
+                            button.setBackgroundResource(R.drawable.locked);
+                        }
+
+                    }
+                });
+                tablerow.addView(button);
+            }
+            TableRow nameRow = new TableRow(this);
+            table.addView(nameRow);
+            for(int i=0;i<2;i++){
+                TextView name = new TextView(this);
+                name.setText(houseAccount.getDoor(accessibleDoors[i+(j*2)]).getName());
+                name.setTextColor(R.color.primary_light);
+                nameRow.addView(name);
+            }
         }
 }
 }
