@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+<string-array name="user_list">
+    <item>Mom</item>
+    <item>Dad</item>
+    <item>Leia</item>
+    <item>Matt</item>
+</string-array>
+
+</resources>

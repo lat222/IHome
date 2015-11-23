@@ -11,6 +11,10 @@ import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.AdapterView.OnItemSelectedListener;
 
 import java.util.ListIterator;
 
@@ -21,6 +25,7 @@ public class Settings extends AppCompatActivity {
     private String user;
     private EditText mUser;
     private TableLayout table;
+    private Spinner dropdown;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +48,14 @@ public class Settings extends AppCompatActivity {
         mUser = (EditText) findViewById(R.id.newUserName);
 
         populateButtons();
+
+        dropdown = (Spinner)findViewById(R.id.spinner);
+
+        String[] items = new String[]{"Mom", "Dad", "Leia", "Matt"};
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
+
+        dropdown.setAdapter(adapter);
     }
 
     @Override
