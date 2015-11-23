@@ -22,6 +22,8 @@ public class Choose extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose);
 
+        setTitle("iHome");
+
         Houses housesDB = new Houses();
 
         Intent loginIntent = getIntent();

@@ -19,6 +19,8 @@ public class ihomeLogin extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ihome_login);
 
+        setTitle("iHome Login");
+
         // Set up the login form.
         mUserView = (EditText) findViewById(R.id.user);
 
